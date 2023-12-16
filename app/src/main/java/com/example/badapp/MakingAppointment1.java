@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -29,6 +30,7 @@ public class MakingAppointment1 extends Fragment {
 
     Button button;
     Spinner typeSpinner, genderSpinner, timeSpinner;
+    ProgressBar progressBar;
 
     FirebaseFirestore fStore = FirebaseFirestore.getInstance();
     CollectionReference appointmentCollection = fStore.collection("appointments");

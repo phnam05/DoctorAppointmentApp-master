@@ -6,19 +6,22 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class PatientHomeActivity extends AppCompatActivity {
+    ProgressBar progressBar;
 
     TextView backPageText;
 
-    Button logoutButton, setAppointmentButton;
+    Button logoutButton, setAppointmentButton, viewAppointmentButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_patient);
+        viewAppointmentButton = findViewById(R.id.btnViewAppointment);
         setAppointmentButton = findViewById(R.id.btnSetAppointment);
         logoutButton = findViewById(R.id.btnLogout);
         logoutButton.setOnClickListener(new View.OnClickListener() {
@@ -36,6 +39,12 @@ public class PatientHomeActivity extends AppCompatActivity {
             }
         });
 
+        viewAppointmentButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(PatientHomeActivity.this, ViewAppointmentActivity.class));
+            }
+        });
 
         }
 }

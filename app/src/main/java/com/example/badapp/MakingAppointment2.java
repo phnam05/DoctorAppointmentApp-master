@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -25,6 +26,7 @@ import java.util.List;
 public class MakingAppointment2 extends Fragment {
 
     private TextView backPageText;
+    ProgressBar progressBar;
     private RecyclerView recyclerView;
     private List<Doctor> doctorsList; // Member variable for the doctors list
     private DoctorsAdapter doctorsAdapter;
