@@ -33,6 +33,9 @@ public class Doctor {
         this.location = location;
     }
 
+    public Doctor() {
+    }
+
     // Getter methods to access the information
     public String getName() {
         return name;

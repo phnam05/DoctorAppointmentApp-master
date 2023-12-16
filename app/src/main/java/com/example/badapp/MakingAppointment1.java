@@ -56,14 +56,14 @@ public class MakingAppointment1 extends Fragment {
             }
         });
 
-        genderSpinner = (Spinner) view.findViewById(R.id.spinnerGender);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-                getActivity(),
-                R.array.gender_array,
-                android.R.layout.simple_spinner_item
-        );
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        genderSpinner.setAdapter(adapter);
+//        genderSpinner = (Spinner) view.findViewById(R.id.spinnerGender);
+//        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+//                getActivity(),
+//                R.array.gender_array,
+//                android.R.layout.simple_spinner_item
+//        );
+//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        genderSpinner.setAdapter(adapter);
 
         typeSpinner = (Spinner) view.findViewById(R.id.spinnerAppointmentType);
         ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(
@@ -108,19 +108,17 @@ public class MakingAppointment1 extends Fragment {
                                           Appointment appointment = new Appointment(name,date,typeAppointment,note,time,id);
                                           appointmentCollection.document(id).set(appointment);
 
-//                FragmentTransaction ft =  getActivity().getSupportFragmentManager().beginTransaction();
-//                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-//
-//                MakingAppointment2 makeAppointment2 = new MakingAppointment2();
-//                Bundle bundle = new Bundle();
-//                Appointment appointment = new Appointment(name,date,typeAppointment,note,time);
-//                bundle.putSerializable("appointment", appointment);
-//                makeAppointment2.setArguments(bundle);
-//                ft.replace(android.R.id.content, makeAppointment2);
-//                ft.addToBackStack(null);
-//                ft.commit();
-                                          ConfirmationActivity confirmationActivity = new ConfirmationActivity();
-                                          getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container_id, confirmationActivity).commit();
+                FragmentTransaction ft =  getActivity().getSupportFragmentManager().beginTransaction();
+                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+
+                ConfirmationActivity confirmationActivity = new ConfirmationActivity();
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("appointment", appointment);
+                confirmationActivity.setArguments(bundle);
+                ft.replace(android.R.id.content, confirmationActivity);
+                ft.addToBackStack(null);
+                ft.commit();
+                //getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container_id, confirmationActivity).commit();
                                       }
                                   }
         );

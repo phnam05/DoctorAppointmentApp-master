@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
@@ -61,10 +63,18 @@ public class ConfirmationActivity extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.fragment_confirmation_activity, container, false);
+        Bundle bundle = new Bundle();
+        Appointment appointment = (Appointment)getArguments().getSerializable("appointment");
+        String patientName = appointment.getPatientName();
+        String date = appointment.getAppointmentDate();
+        String time = appointment.getTime();
+        String type = appointment.getAppointmentType();
+        String note = appointment.getNote();
+        TextView appointmentInfo = view.findViewById(R.id.tvAppointmentInfo);
+        appointmentInfo.setText("Patient name: " + patientName + "\n" + "Time: "+ date + ", " + time + "\n" +  "Appointment type: "+type + "\n" + "Note: " + note);
         backToHome = view.findViewById(R.id.btnHome);
-        setNewAppointment = view.findViewById(R.id.btnSetNewAppointment);
+        //setNewAppointment = view.findViewById(R.id.btnSetNewAppointment);
 
         backToHome.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,14 +83,14 @@ public class ConfirmationActivity extends Fragment {
             }
         });
 
-        setNewAppointment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MakingAppointment1 make1 = new MakingAppointment1();
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container_id,make1).commit();
-            }
-        });
-        // Inflate the layout for this fragment
+//        setNewAppointment.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                MakingAppointment1 make1 = new MakingAppointment1();
+//                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container_id,make1).commit();
+//            }
+//        });
+//        // Inflate the layout for this fragment
         return view;
     }
 }
