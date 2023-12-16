@@ -1,9 +1,11 @@
 package com.example.badapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.fragment.app.Fragment;
 
@@ -13,6 +15,8 @@ import androidx.fragment.app.Fragment;
  * create an instance of this fragment.
  */
 public class ConfirmationActivity extends Fragment {
+
+    Button backToHome, setNewAppointment;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -57,7 +61,26 @@ public class ConfirmationActivity extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        View view = inflater.inflate(R.layout.fragment_confirmation_activity, container, false);
+        backToHome = view.findViewById(R.id.btnHome);
+        setNewAppointment = view.findViewById(R.id.btnSetNewAppointment);
+
+        backToHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), PatientHomeActivity.class));
+            }
+        });
+
+        setNewAppointment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MakingAppointment1 make1 = new MakingAppointment1();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container_id,make1).commit();
+            }
+        });
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_confirmation_activity, container, false);
+        return view;
     }
 }

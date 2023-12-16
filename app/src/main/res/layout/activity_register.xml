@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".RegisterActivity"
+    android:layout_marginTop="0sp"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -10,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding = "0sp"
-        android:layout_margin= "15dp">
+        android:layout_margin= "16sp">
 
         <TextView
             android:id="@+id/signupTextView"
@@ -221,18 +222,18 @@
 
         <Button
             android:id="@+id/registerButton"
+            style="@style/ShapeAppearanceOverlay.Material3.FloatingActionButton"
             android:layout_width="277dp"
             android:layout_height="46dp"
-            android:layout_marginTop="15dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/passwordInputLayout"
+            android:layout_marginTop="-3dp"
             android:backgroundTint="#2C87FF"
             android:text="Register Account"
-            android:textSize="16sp"
             android:textColorHighlight="#2C87FF"
             android:textColorLink="#2C87FF"
-            android:layout_below="@id/passwordInputLayout"
-            android:layout_centerHorizontal="true"
-            style="@style/ShapeAppearanceOverlay.Material3.FloatingActionButton"
-             ></Button>
+            android:textSize="16sp"></Button>
+
         <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -247,11 +248,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/registerButton"
-            android:layout_marginTop="16sp"
+            android:layout_marginLeft="40sp"
+            android:layout_marginTop="16dp"
             android:text="Already have an account?"
-            android:layout_marginLeft="30sp"
-            android:textSize="15sp"
-             />
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/loginText"

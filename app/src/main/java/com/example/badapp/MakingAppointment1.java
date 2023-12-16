@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -25,13 +27,13 @@ import java.util.Calendar;
 public class MakingAppointment1 extends Fragment {
 
     Button button;
-    Spinner spinner;
+    Spinner typeSpinner, genderSpinner, timeSpinner;
 
-    FirebaseFirestore fStore;
-    EditText editDate;
+    FirebaseFirestore fStore = FirebaseFirestore.getInstance();
+    CollectionReference appointmentCollection = fStore.collection("appointments");
+    EditText editDate, editTextName, editTextNote;
 
     TextView backPageText;
-
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -92,45 +94,32 @@ public class MakingAppointment1 extends Fragment {
             }
         });
 
-        button = view.findViewById(R.id.buttonNext);
-        button.setOnClickListener(new View.OnClickListener(){
-                                      @Override
-                                      public void onClick(View view){
-                                          DocumentReference appointmentReference = fStore.collection("appointments").document();
-
-
-
-                                          MakingAppointment2 makeAppointment2 = new MakingAppointment2();
-                                          getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container_id, makeAppointment2).commit();
-                                      }
-                                  }
-        );
-        Spinner spinner = (Spinner) view.findViewById(R.id.spinnerGender);
+        genderSpinner = (Spinner) view.findViewById(R.id.spinnerGender);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
                 getActivity(),
                 R.array.gender_array,
                 android.R.layout.simple_spinner_item
         );
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
+        genderSpinner.setAdapter(adapter);
 
-        Spinner spinner2 = (Spinner) view.findViewById(R.id.spinnerAppointmentType);
+        typeSpinner = (Spinner) view.findViewById(R.id.spinnerAppointmentType);
         ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(
                 getActivity(),
                 R.array.appointment_array,
                 android.R.layout.simple_spinner_item
         );
         adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner2.setAdapter(adapter2);
+        typeSpinner.setAdapter(adapter2);
 
-        Spinner spinner3 = (Spinner) view.findViewById(R.id.spinnerTime);
+        timeSpinner = (Spinner) view.findViewById(R.id.spinnerTime);
         ArrayAdapter<CharSequence> adapter3 = ArrayAdapter.createFromResource(
                 getActivity(),
                 R.array.time_array,
                 android.R.layout.simple_spinner_item
         );
         adapter3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner3.setAdapter(adapter3);
+        timeSpinner.setAdapter(adapter3);
 
         editDate = (EditText) view.findViewById(R.id.editTextDate);
         editDate.setOnClickListener(new View.OnClickListener(){
@@ -140,24 +129,39 @@ public class MakingAppointment1 extends Fragment {
             }
         });
 
+        //Register Appointment & Go to next page
+        button = view.findViewById(R.id.buttonNext);
+        button.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                String name = editTextName.getText().toString();
+                String date = editDate.getText().toString();
+                String typeAppointment = typeSpinner.getSelectedItem().toString();
+                String note = editTextNote.getText().toString();
+                String time = timeSpinner.getSelectedItem().toString();
+                String id = appointmentCollection.document().getId();
+                Appointment appointment = new Appointment(name,date,typeAppointment,note,time,id);
+                appointmentCollection.document(id).set(appointment);
+
+//                FragmentTransaction ft =  getActivity().getSupportFragmentManager().beginTransaction();
+//                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+//
+//                MakingAppointment2 makeAppointment2 = new MakingAppointment2();
+//                Bundle bundle = new Bundle();
+//                Appointment appointment = new Appointment(name,date,typeAppointment,note,time);
+//                bundle.putSerializable("appointment", appointment);
+//                makeAppointment2.setArguments(bundle);
+//                ft.replace(android.R.id.content, makeAppointment2);
+//                ft.addToBackStack(null);
+//                ft.commit();
+                ConfirmationActivity confirmationActivity = new ConfirmationActivity();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container_id, confirmationActivity).commit();
+            }
+                                  }
+        );
+
         return view;
-
-
-//        private void chooseDate(){
-//            Calendar calendar = Calendar.getInstance();
-//            int day = calendar.get(Calendar.DATE);
-//            int month = calendar.get(Calendar.MONTH);
-//            int year = calendar.get(Calendar.YEAR);
-//            DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
-//                @Override
-//                public void onDateSet(DatePicker view, int i, int i1, int i2) {
-//                    calendar.set(i, i1, i2);
-//                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-//                    edtDate.setText(simpleDateFormat.format(calendar.getTime()));
-//                }
-//            }, year,month, day);
-//            datePickerDialog.show();
-//        }
-
     }
+
+
 }

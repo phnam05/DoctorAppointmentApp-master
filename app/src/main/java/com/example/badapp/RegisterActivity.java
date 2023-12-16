@@ -70,6 +70,8 @@ public class RegisterActivity extends AppCompatActivity {
         registerButton = findViewById(R.id.registerButton);
         progressBar = findViewById(R.id.progressBar);
         loginText.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
+
+
         editTextBirthDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
