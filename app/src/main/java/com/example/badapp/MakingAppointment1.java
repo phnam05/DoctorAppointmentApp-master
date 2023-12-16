@@ -42,44 +42,6 @@ public class MakingAppointment1 extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
-    public MakingAppointment1() {
-        // Required empty public constructor
-    }
-
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-    private void chooseDate(){
-        // Get a calendar instance
-        Calendar calendar = Calendar.getInstance();
-        int day = calendar.get(Calendar.DAY_OF_MONTH); // Use DAY_OF_MONTH instead of DATE
-        int month = calendar.get(Calendar.MONTH);
-        int year = calendar.get(Calendar.YEAR);
-
-        // Create a DatePickerDialog and set its OnDateSetListener
-        DatePickerDialog datePickerDialog = new DatePickerDialog(
-                getActivity(), // context should be getActivity() when inside a Fragment
-                new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int selectedYear, int selectedMonth, int selectedDay) {
-                        // Set the calendar to the chosen date
-                        calendar.set(selectedYear, selectedMonth, selectedDay);
-
-                        // Format the date as you want it to be
-                        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-                        editDate.setText(dateFormat.format(calendar.getTime()));
-                    }
-                }, year, month, day);
-
-        datePickerDialog.show(); // Show the DatePickerDialog
-    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -131,17 +93,20 @@ public class MakingAppointment1 extends Fragment {
 
         //Register Appointment & Go to next page
         button = view.findViewById(R.id.buttonNext);
+        editTextName = view.findViewById(R.id.editTextName);
+        editDate = view.findViewById(R.id.editTextDate);
+        editTextNote = view.findViewById(R.id.editNote);
         button.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                String name = editTextName.getText().toString();
-                String date = editDate.getText().toString();
-                String typeAppointment = typeSpinner.getSelectedItem().toString();
-                String note = editTextNote.getText().toString();
-                String time = timeSpinner.getSelectedItem().toString();
-                String id = appointmentCollection.document().getId();
-                Appointment appointment = new Appointment(name,date,typeAppointment,note,time,id);
-                appointmentCollection.document(id).set(appointment);
+                                      @Override
+                                      public void onClick(View view){
+                                          String name = editTextName.getText().toString();
+                                          String date = editDate.getText().toString();
+                                          String typeAppointment = typeSpinner.getSelectedItem().toString();
+                                          String note = editTextNote.getText().toString();
+                                          String time = timeSpinner.getSelectedItem().toString();
+                                          String id = appointmentCollection.document().getId();
+                                          Appointment appointment = new Appointment(name,date,typeAppointment,note,time,id);
+                                          appointmentCollection.document(id).set(appointment);
 
 //                FragmentTransaction ft =  getActivity().getSupportFragmentManager().beginTransaction();
 //                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
@@ -154,14 +119,51 @@ public class MakingAppointment1 extends Fragment {
 //                ft.replace(android.R.id.content, makeAppointment2);
 //                ft.addToBackStack(null);
 //                ft.commit();
-                ConfirmationActivity confirmationActivity = new ConfirmationActivity();
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container_id, confirmationActivity).commit();
-            }
+                                          ConfirmationActivity confirmationActivity = new ConfirmationActivity();
+                                          getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container_id, confirmationActivity).commit();
+                                      }
                                   }
         );
-
         return view;
     }
+    public MakingAppointment1() {
+        // Required empty public constructor
+    }
+
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            mParam1 = getArguments().getString(ARG_PARAM1);
+            mParam2 = getArguments().getString(ARG_PARAM2);
+        }
+    }
+    private void chooseDate(){
+        // Get a calendar instance
+        Calendar calendar = Calendar.getInstance();
+        int day = calendar.get(Calendar.DAY_OF_MONTH); // Use DAY_OF_MONTH instead of DATE
+        int month = calendar.get(Calendar.MONTH);
+        int year = calendar.get(Calendar.YEAR);
+
+        // Create a DatePickerDialog and set its OnDateSetListener
+        DatePickerDialog datePickerDialog = new DatePickerDialog(
+                getActivity(), // context should be getActivity() when inside a Fragment
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int selectedYear, int selectedMonth, int selectedDay) {
+                        // Set the calendar to the chosen date
+                        calendar.set(selectedYear, selectedMonth, selectedDay);
+
+                        // Format the date as you want it to be
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                        editDate.setText(dateFormat.format(calendar.getTime()));
+                    }
+                }, year, month, day);
+
+        datePickerDialog.show(); // Show the DatePickerDialog
+    }
+
 
 
 }
