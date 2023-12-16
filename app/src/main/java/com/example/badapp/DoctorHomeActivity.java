@@ -13,7 +13,7 @@ public class DoctorHomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_doctor_home);
+        setContentView(R.layout.activity_home_doctor);
 
         logoutButton = findViewById(R.id.btnLogout);
         logoutButton.setOnClickListener(new View.OnClickListener() {

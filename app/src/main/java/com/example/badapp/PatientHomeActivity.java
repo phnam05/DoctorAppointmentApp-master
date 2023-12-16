@@ -18,7 +18,7 @@ public class PatientHomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home_test);
+        setContentView(R.layout.activity_home_patient);
         setAppointmentButton = findViewById(R.id.btnSetAppointment);
         logoutButton = findViewById(R.id.btnLogout);
         logoutButton.setOnClickListener(new View.OnClickListener() {
