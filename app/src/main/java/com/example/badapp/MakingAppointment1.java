@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -99,13 +100,14 @@ public class MakingAppointment1 extends Fragment {
         button.setOnClickListener(new View.OnClickListener(){
                                       @Override
                                       public void onClick(View view){
+                                          String email = FirebaseAuth.getInstance().getCurrentUser().getEmail().toString();
                                           String name = editTextName.getText().toString();
                                           String date = editDate.getText().toString();
                                           String typeAppointment = typeSpinner.getSelectedItem().toString();
                                           String note = editTextNote.getText().toString();
                                           String time = timeSpinner.getSelectedItem().toString();
                                           String id = appointmentCollection.document().getId();
-                                          Appointment appointment = new Appointment(name,date,typeAppointment,note,time,id);
+                                          Appointment appointment = new Appointment(name,email,date,typeAppointment,note,time,id);
                                           appointmentCollection.document(id).set(appointment);
 
                 FragmentTransaction ft =  getActivity().getSupportFragmentManager().beginTransaction();
