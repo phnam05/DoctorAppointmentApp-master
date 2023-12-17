@@ -1,95 +1,128 @@
 package com.example.badapp;
+import java.io.Serializable;
 
-public class Doctor {
 
-    public int resourceID;
-    private String name;
-    private String specialty;
-    private int patientCount;
-    private int experienceYears;
-    private String phoneNumber;
+import com.google.firebase.firestore.PropertyName;
+
+public class Doctor implements Serializable {
+
+    private String fullName;
     private String email;
+    private String gender;
     private String location;
+    private String phone;
+    private String role;
+    private String specialty;
+    private int experienceYears;
+    private int patientCount;
+    private String id; // The doctor's user ID from Firestore
+    private boolean isSelected; // This is for UI state, not a Firestore field
 
-    // Constructor to initialize the member variables
-    public Doctor(String name, String specialty, int patientCount, int experienceYears, String phoneNumber, String email, String location) {
-        this.name = name;
-        this.specialty = specialty;
-        this.patientCount = patientCount;
-        this.experienceYears = experienceYears;
-        this.phoneNumber = phoneNumber;
-        this.email = email;
-        this.location = location;
-    }
-
-    public Doctor(int resourceID, String name, String specialty, int patientCount, int experienceYears, String phoneNumber, String email, String location) {
-        this.resourceID = resourceID;
-        this.name = name;
-        this.specialty = specialty;
-        this.patientCount = patientCount;
-        this.experienceYears = experienceYears;
-        this.phoneNumber = phoneNumber;
-        this.email = email;
-        this.location = location;
-    }
-
+    // No-arg constructor for Firestore
     public Doctor() {
+        // Firestore deserialization
     }
 
-    // Getter methods to access the information
-    public String getName() {
-        return name;
+    // Getters and setters
+    public String getId() {
+        return id;
     }
 
-    public String getSpecialty() {
-        return specialty;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public int getPatientCount() {
-        return patientCount;
+    @PropertyName("FullName")
+    public String getFullName() {
+        return fullName;
     }
 
-    public int getExperienceYears() {
-        return experienceYears;
+    @PropertyName("FullName")
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
+    @PropertyName("Email")
     public String getEmail() {
         return email;
     }
 
+    @PropertyName("Email")
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    @PropertyName("Gender")
+    public String getGender() {
+        return gender;
+    }
+
+    @PropertyName("Gender")
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    @PropertyName("Location")
     public String getLocation() {
         return location;
     }
 
-    // Setter methods (optional, if you need to modify the data later)
-    public void setName(String name) {
-        this.name = name;
-    }
-    public void setSpecialty(String specialty){
-        this.specialty = specialty;
-    }
-    public void setPatientCount(int patientCount){
-        this.patientCount = patientCount;
-    }
-    public void setExperienceYears(int experienceYears){
-        this.experienceYears = experienceYears;
-    }
-    public void setPhoneNumber(String phoneNumber){
-        this.phoneNumber = phoneNumber;
-    }
-    public void setEmail(String email){
-        this.email = email;
-    }
-    public void setLocation(String location){
+    @PropertyName("Location")
+    public void setLocation(String location) {
         this.location = location;
     }
-    private boolean isSelected;
 
-    // Getter and setter for isSelected
+    @PropertyName("Phone")
+    public String getPhone() {
+        return phone;
+    }
+
+    @PropertyName("Phone")
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    @PropertyName("Role")
+    public String getRole() {
+        return role;
+    }
+
+    @PropertyName("Role")
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    @PropertyName("Specialty")
+    public String getSpecialty() {
+        return specialty;
+    }
+
+    @PropertyName("Specialty")
+    public void setSpecialty(String specialty) {
+        this.specialty = specialty;
+    }
+
+    @PropertyName("Experienceyears")
+    public int getExperienceYears() {
+        return experienceYears;
+    }
+
+    @PropertyName("Experienceyears")
+    public void setExperienceYears(int experienceYears) {
+        this.experienceYears = experienceYears;
+    }
+
+    @PropertyName("PatientCount")
+    public int getPatientCount() {
+        return patientCount;
+    }
+
+    @PropertyName("PatientCount")
+    public void setPatientCount(int patientCount) {
+        this.patientCount = patientCount;
+    }
+
+    // This field is for UI state management and does not correspond to a Firestore field.
     public boolean isSelected() {
         return isSelected;
     }
@@ -98,4 +131,3 @@ public class Doctor {
         isSelected = selected;
     }
 }
-

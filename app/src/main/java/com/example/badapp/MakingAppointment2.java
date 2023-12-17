@@ -3,17 +3,18 @@ package com.example.badapp;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
-import android.widget.TextView;
+
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,12 +25,10 @@ import java.util.List;
  * create an instance of this fragment.
  */
 public class MakingAppointment2 extends Fragment {
-
-    private TextView backPageText;
-    ProgressBar progressBar;
     private RecyclerView recyclerView;
     private List<Doctor> doctorsList; // Member variable for the doctors list
     private DoctorsAdapter doctorsAdapter;
+    private Doctor selectedDoctor;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -70,7 +69,22 @@ public class MakingAppointment2 extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-
+    private void fetchDoctorsFromFirestore() {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("users").whereEqualTo("Role", "Doctor")
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful() && task.getResult() != null) {
+                        doctorsList.clear(); // Clear the existing list
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            Doctor doctor = document.toObject(Doctor.class);
+                            doctorsList.add(doctor); // Add doctor to the list
+                        }
+                    } else {
+                        Log.d("Firestore", "Error getting documents: ", task.getException());
+                    }
+                });
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -80,29 +94,16 @@ public class MakingAppointment2 extends Fragment {
         View button3 = view.findViewById(R.id.set_appointment_button);
 
         //UNCOMMENT ME TO GO TO CONFIRMATION
-        button3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-
-                ConfirmationActivity confirmationActivity = new ConfirmationActivity();
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container_id, confirmationActivity).commit();
-            }
-        });
-
-        View backPageText_ = view.findViewById(R.id.backPageText);
-        backPageText_.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MakingAppointment1 make1 = new MakingAppointment1();
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container_id, make1).commit();
-            }
-        });
         recyclerView = view.findViewById(R.id.recycler_view_doctors);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
-        doctorsList = getListDoctor();
+//        doctorsList = getListDoctor();
+        doctorsList = new ArrayList<>();
+        // Fetch doctors from Firestore
+        fetchDoctorsFromFirestore();
 
         // Set up the adapter with the list of doctors
+
         doctorsAdapter = new DoctorsAdapter(doctorsList, new DoctorsAdapter.OnDoctorClickListener() {
             @Override
             public void onDoctorClick(Doctor doctor) {
@@ -111,6 +112,7 @@ public class MakingAppointment2 extends Fragment {
                     d.setSelected(false); // deselect all
                 }
                 doctor.setSelected(true); // select the clicked one
+                selectedDoctor = doctor;
 
                 // Refresh the adapter
                 doctorsAdapter.notifyDataSetChanged();
@@ -119,16 +121,24 @@ public class MakingAppointment2 extends Fragment {
 
         // Attach the adapter to the RecyclerView
         recyclerView.setAdapter(doctorsAdapter);
+
+        button3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ConfirmationActivity confirmationActivity = new ConfirmationActivity();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container_id, confirmationActivity).commit();
+            }
+        });
         return view;
     }
-    private List<Doctor> getListDoctor(){
-        List<Doctor> doctorsList = new ArrayList<>();
-        doctorsList.add(new Doctor("Dr. Edward", "Dentist", 50, 5, "+0930 235 049", "edward.dr@gmail.com", "Singapore"));
-        doctorsList.add(new Doctor("Dr. Thanh", "Physician", 30, 10, "+0320 809 202", "drthanh@mail.com", "Ho Chi Minh"));
-        doctorsList.add(new Doctor("Dr. Anna", "Cardiologist", 20, 5, "+0634 825 837", "annadr@hotmail.com", "Hanoi"));
-        doctorsList.add(new Doctor("Dr. David", "General", 40, 15, "+0923 284 732", "doctordavid@gmail.com", "China"));
-        doctorsList.add(new Doctor("Dr. Charlie", "Surgeon", 30, 5, "+0378 826 937", "charliedr@gmail.com", "New York"));
-        return doctorsList;
-    }
+//    private List<Doctor> getListDoctor(){
+//        List<Doctor> doctorsList = new ArrayList<>();
+//        doctorsList.add(new Doctor("Dr. Edward", "Dentist", 50, 5, "+0930 235 049", "edward.dr@gmail.com", "Singapore"));
+//        doctorsList.add(new Doctor("Dr. Thanh", "Physician", 30, 10, "+0320 809 202", "drthanh@mail.com", "Ho Chi Minh"));
+//        doctorsList.add(new Doctor("Dr. Anna", "Cardiologist", 20, 5, "+0634 825 837", "annadr@hotmail.com", "Hanoi"));
+//        doctorsList.add(new Doctor("Dr. David", "General", 40, 15, "+0923 284 732", "doctordavid@gmail.com", "China"));
+//        doctorsList.add(new Doctor("Dr. Charlie", "Surgeon", 30, 5, "+0378 826 937", "charliedr@gmail.com", "New York"));
+//        return doctorsList;
+//    }
 
 }

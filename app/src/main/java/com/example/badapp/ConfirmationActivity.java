@@ -71,8 +71,43 @@ public class ConfirmationActivity extends Fragment {
         String time = appointment.getTime();
         String type = appointment.getAppointmentType();
         String note = appointment.getNote();
+        // Extract the doctor details
+        Doctor doctor = appointment.getDoctor();
+        String doctorName = doctor != null ? doctor.getFullName() : "Not specified";
+
         TextView appointmentInfo = view.findViewById(R.id.tvAppointmentInfo);
-        appointmentInfo.setText("Patient name: " + patientName + "\n" + "Time: "+ date + ", " + time + "\n" +  "Appointment type: "+type + "\n" + "Note: " + note);
+        appointmentInfo.setText("Patient name: " + patientName + "\n" + "Time: "+ date + ", " + time + "\n" +  "Appointment type: "+type + "\n" + "Note: " + note+ "\n"
+                + "Doctor: " + doctorName);
+
+        //btw t dinh lam nhu nay (neu click vo button):
+//        FirebaseFirestore db = FirebaseFirestore.getInstance();
+//        Map<String, Object> appointmentData = new HashMap<>();
+//        appointmentData.put("patientName", patientName);
+//        appointmentData.put("appointmentDate", date);
+//        appointmentData.put("appointmentTime", time);
+//        appointmentData.put("appointmentType", type);
+//        appointmentData.put("note", note);
+//
+//        appointmentData.put("doctorId", doctor.getId());
+//
+//
+//
+//        db.collection("appointments").add(appointmentData)
+//                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+//                    @Override
+//                    public void onSuccess(DocumentReference documentReference) {
+//                        Toast.makeText(getContext(), "Appointment confirmed !", Toast.LENGTH_SHORT).show();
+//                        // Handle additional logic if needed, like navigation or state updates
+//                    }
+//                })
+//                .addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception e) {
+//                        Toast.makeText(getContext(), "Error confirming appointment: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+//                        // Handle error state, like displaying a message or retry mechanism
+//                    }
+//                });
+
         backToHome = view.findViewById(R.id.btnHome);
         //setNewAppointment = view.findViewById(R.id.btnSetNewAppointment);
 

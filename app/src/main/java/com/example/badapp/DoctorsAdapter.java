@@ -16,6 +16,7 @@ public class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorVi
 
     private List<Doctor> doctorsList;
     private OnDoctorClickListener listener;
+    private String selectedDoctorId;
 
     // Interface for callback when an item is clicked
     public interface OnDoctorClickListener {
@@ -33,10 +34,16 @@ public class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorVi
         notifyDataSetChanged();
     }
     public void onDoctorClick(Doctor doctor) {
-        // Update the selection state of the clicked doctor
-        doctor.setSelected(!doctor.isSelected());
+        // Deselect all doctors
+        for (Doctor d : doctorsList) {
+            d.setSelected(false);
+        }
+        // Select the clicked doctor
+        doctor.setSelected(true);
+        // Store the selected doctor's user ID
+        selectedDoctorId = doctor.getId();
 
-        // Refresh the entire list or use notifyItemChanged for better performance
+        // Refresh the adapter to update the views
         notifyDataSetChanged();
     }
 
@@ -81,12 +88,12 @@ public class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorVi
         }
 
         void bind(final Doctor doctor, final OnDoctorClickListener listener) {
-            doctorName.setText(doctor.getName());
+            doctorName.setText(doctor.getFullName());
             doctorSpecialty.setText(doctor.getSpecialty());
             patientCount.setText(String.format(Locale.getDefault(), "%d+ Patients", doctor.getPatientCount()));
             experienceYears.setText(String.format(Locale.getDefault(), "%d Years Experience", doctor.getExperienceYears()));
             location.setText(doctor.getLocation());
-            phoneNumber.setText(doctor.getPhoneNumber());
+            phoneNumber.setText(doctor.getPhone());
             email.setText(doctor.getEmail());
             // Set the background color based on the selected state
             itemView.setBackgroundResource(doctor.isSelected() ? R.drawable.selected_background : R.drawable.card_border);

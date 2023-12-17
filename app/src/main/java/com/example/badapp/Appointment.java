@@ -13,6 +13,7 @@ public class Appointment implements Serializable {
         this.note = note;
         this.time = time;
         this.appointmentID = appointmentID;
+        this.doctor = doctor;
     }
 
     public Appointment(String name, String email, String date, String typeAppointment, String note, String time, String id) {
