@@ -71,8 +71,17 @@ public class ConfirmationActivity extends Fragment {
         String time = appointment.getTime();
         String type = appointment.getAppointmentType();
         String note = appointment.getNote();
+        // Extract the doctor details
+        Doctor doctor = appointment.getDoctor();
+        // Retrieve the selected doctor's ID
+        String selectedDoctorId = doctor != null ? doctor.getId() : null;
+        String doctorName = doctor != null ? doctor.getFullName() : "Not specified";
+
         TextView appointmentInfo = view.findViewById(R.id.tvAppointmentInfo);
-        appointmentInfo.setText("Patient name: " + patientName + "\n" + "Time: "+ date + ", " + time + "\n" +  "Appointment type: "+type + "\n" + "Note: " + note);
+        appointmentInfo.setText("Patient name: " + patientName + "\n" + "Time: "+ date + ", " + time + "\n" +  "Appointment type: "+type + "\n" + "Note: " + note+ "\n"
+                + "Doctor: " + doctorName);
+
+
         backToHome = view.findViewById(R.id.btnHome);
         //setNewAppointment = view.findViewById(R.id.btnSetNewAppointment);
 
