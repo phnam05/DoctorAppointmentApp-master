@@ -102,12 +102,17 @@ public class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorVi
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
                     // Notify the listener that an item has been clicked
                     listener.onDoctorClick(doctor);
                 }
             });
 
         }
+
+    }
+    public String getSelectedDoctorId() {
+        return selectedDoctorId;
     }
 
 }

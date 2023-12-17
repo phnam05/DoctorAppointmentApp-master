@@ -29,6 +29,8 @@ public class MakingAppointment2 extends Fragment {
     private List<Doctor> doctorsList; // Member variable for the doctors list
     private DoctorsAdapter doctorsAdapter;
     private Doctor selectedDoctor;
+    private String selectedDoctorId;
+
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -78,6 +80,7 @@ public class MakingAppointment2 extends Fragment {
                         doctorsList.clear(); // Clear the existing list
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             Doctor doctor = document.toObject(Doctor.class);
+                            doctor.setId(document.getId());
                             doctorsList.add(doctor); // Add doctor to the list
                         }
                     } else {
@@ -113,6 +116,8 @@ public class MakingAppointment2 extends Fragment {
                 }
                 doctor.setSelected(true); // select the clicked one
                 selectedDoctor = doctor;
+                selectedDoctorId = doctor.getId();
+
 
                 // Refresh the adapter
                 doctorsAdapter.notifyDataSetChanged();
@@ -125,7 +130,12 @@ public class MakingAppointment2 extends Fragment {
         button3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 ConfirmationActivity confirmationActivity = new ConfirmationActivity();
+                Bundle args = new Bundle();
+                args.putString("selectedDoctorId", selectedDoctorId);
+                confirmationActivity.setArguments(args);
+
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container_id, confirmationActivity).commit();
             }
         });
